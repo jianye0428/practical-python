@@ -20,7 +20,7 @@ We learned about these in the introduction.
 email_address = None
 ```
 
-`None` is often used as a placeholder for optional or missing value.  It
+`None` is often used as a placeholder(占位符) for optional or missing value.  It
 evaluates as `False` in conditionals.
 
 ```python
