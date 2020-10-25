@@ -103,3 +103,16 @@ print(('-' * 10 + ' ')*len(header))
 for r in report:
     print('%10s %10d %10.2f %10.2f' % r)
 
+def make_a_new_report(filename):
+    f = open(filename)
+    rows = csv.reader(f)
+    headers=next(rows)
+    print(headers)
+    report=[]
+    for rowno, row in enumerate(rows,start = 1):
+        record = dict(zip(headers,row))
+        report.append(record)
+    return report
+
+filename = '/home/jianye/practical-python/Work/Data/portfoliodate.csv'
+print(make_a_new_report(filename))
