@@ -39,6 +39,9 @@ def read_price_to_dict(filename):
     return prices
 
 def make_report(portfolio,prices): 
+    '''
+    MAKE A REPORT WITH PORTFOLIO AND PRICES
+    '''
     report =[]
     for stock in portfolio:
         current_price = float(prices[stock['name']])
@@ -96,7 +99,6 @@ for r in report:
 for name,shares,price,change in report:
     print(f'{name:>10s}{shares:>10d}{price:>10.2f}{change:>10.2f}')
 
-
 header = ('Name','Share','Price','Change')
 print('%10s %10s %10s %10s' % header)
 print(('-' * 10 + ' ')*len(header))
@@ -116,7 +118,6 @@ def make_a_new_report(filename):
 
 filename = '/home/jianye/practical-python/Work/Data/portfoliodate.csv'
 print(make_a_new_report(filename))
-
 
 portfolio = read_portfolio_to_dict('/home/jianye/practical-python/Work/Data/portfolio.csv')
 
@@ -143,8 +144,6 @@ combind = holdings + holding2
 portfolio = read_portfolio_to_dict('/home/jianye/practical-python/Work/Data/portfolio.csv')
 cost = sum([s['shares']*s['price'] for s in portfolio])
 # print(cost)
-
-
 
 list = [s['shares']*s['price'] for s in portfolio]
 # print(list)
