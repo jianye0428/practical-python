@@ -5,6 +5,7 @@ import fileparse
 from stock import Stock
 import csv
 from pprint import pprint
+import tableformat
 # define a function to read file and represent the data with a list
 
 def read_portfolio(filename):
@@ -35,17 +36,19 @@ def make_report_data(portfolio,prices):
         rows.append(summary)
     return rows
 
-def print_report(reportdata):
+def print_report(reportdata, formatter):
     '''
     Print a nicely formated table from a list of (name,shares,price,change) tuples.
     '''
-    headers = ('Name','Shares','Price','Change')
-    print('%10s %10s %10s %10s' % headers)
-    print(('-'*10+' ')*len(headers))
-    for row in reportdata:
-        print('%10s %10d %10.2f %10.2f'%row)
+    #headers = ('Name','Shares','Price','Change')
+    #print('%10s %10s %10s %10s' % headers)
+    #print(('-'*10+' ')*len(headers))
+    formatter.headings(['Name','Shares','Price','Change'])
+    for row, shares, price, change in reportdata:
+        rowdata = [name, str(shares),f'{price:0.2f}',f'{price:0.2f}']
+        formatter.row(rowdata)
 
-def portfolio_report(portfoliofile,pricefile):
+def portfolio_report(portfoliofile,pricefile,fmt='txt'):
     '''
     Make a stock report given portfolio and price data files
     '''
@@ -57,7 +60,18 @@ def portfolio_report(portfoliofile,pricefile):
     report = make_report_data(portfolio,prices)
 
     #print it out
-    print_report(report)
+    #print_report(report)
+
+    if fmt == 'txt':
+        formatter = tableformat.TextTableFormatter()
+    elif fmt == 'csv':
+        formatter = tableformat.CSVTableFormatter()
+    elif fmt == 'hrml':
+        formatter = tableformat.HTMLTableFormatter()
+    else:
+        raise RuntimeError(f'Unknown Format {fmt}')
+    formatter = tableformat.create_formatter(fmt)
+    print_report(report, formatter)
 
 def main(args):
     if len(args) != 3:
