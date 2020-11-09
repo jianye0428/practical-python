@@ -20,3 +20,5 @@ class Stock:
         sell a number of shares
         '''
         self.shares -= nshares
+
+
