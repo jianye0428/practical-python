@@ -2,7 +2,7 @@
 
 # 6.1 Iteration Protocol
 
-This section looks at the underlying process of iteration.
+This section looks at the underlying process of iteration. (底层过程)
 
 ### Iteration Everywhere
 

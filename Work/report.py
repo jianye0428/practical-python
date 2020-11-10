@@ -6,23 +6,28 @@ from stock import Stock
 import csv
 from pprint import pprint
 import tableformat
+from portfolio import Portfolio
 # define a function to read file and represent the data with a list
 
 def read_portfolio(filename):
     '''
     Read a stock portfolio file into a list of dictionaries with keys
+    name, shares, and price.
     '''
     with open(filename) as lines:
-        portdicts = fileparse.parse_csv(lines, select=['name','shares','price'],types=[str,int,float])
-    portfolio = [Stock(d['name'],d['shares'],d['price']) for d in portdicts]
-    return portfolio
+        portdicts = fileparse.parse_csv(lines, 
+                                        select=['name','shares','price'], 
+                                        types=[str,int,float])
+
+    portfolio = [ Stock(d['name'], d['shares'], d['price']) for d in portdicts ]
+    return Portfolio(portfolio)
 
 def read_price(filename):
     '''
     Read a CSV file of price data into a dict mapping names to prices.
     '''
     with open(filename) as lines:
-        return dict(filename.parse_csv(lines,types=[str,float],has_headers = False))
+        return dict(fileparse.parse_csv(lines, types=[str,float], has_headers=False))  
 
 def make_report_data(portfolio,prices): 
     '''
@@ -44,7 +49,7 @@ def print_report(reportdata, formatter):
     #print('%10s %10s %10s %10s' % headers)
     #print(('-'*10+' ')*len(headers))
     formatter.headings(['Name','Shares','Price','Change'])
-    for row, shares, price, change in reportdata:
+    for name, shares, price, change in reportdata:
         rowdata = [name, str(shares),f'{price:0.2f}',f'{price:0.2f}']
         formatter.row(rowdata)
 
@@ -81,6 +86,5 @@ def main(args):
 if __name__ == '__main__':
     import sys
     main(sys.argv)
-
 
 
