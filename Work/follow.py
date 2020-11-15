@@ -19,9 +19,9 @@ def follow(filename):
 if __name__ == '__main__':
     import report
 
-    portfolio = report.read_portfolio('Work/Data/portfolio.csv')
+    portfolio = report.read_portfolio('../../Data/portfolio.csv')
 
-    for line in follow('Work/Data/stocklog.csv'):
+    for line in follow('../../Data/stocklog.csv'):
         row = line.split(',')
         name = row[0].strip('"')
         price = float(row[1])

@@ -1,6 +1,4 @@
 # fileparse.py
-#
-# Exercise 3.3
 import csv
 
 def parse_csv(lines, select=None, types=None, has_headers=True, delimiter=',', silence_errors=False):
@@ -47,4 +45,3 @@ def parse_csv(lines, select=None, types=None, has_headers=True, delimiter=',', s
         records.append(record)
 
     return records
-

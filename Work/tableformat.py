@@ -1,26 +1,27 @@
+# tableformat.py
+
 class TableFormatter:
     def headings(self, headers):
         '''
-        Emit the table headings
+        Emit the table headers
         '''
         raise NotImplementedError()
 
-    def row(self,rowdata):
+    def row(self, rowdata):
         '''
         Emit a single row of table data
         '''
         raise NotImplementedError()
 
-
 class TextTableFormatter(TableFormatter):
     '''
-    Emit a table in plain-text format
+    Output data in plain-text format.
     '''
-    def headings(self,headers):
+    def headings(self, headers):
         for h in headers:
-            print(f'{h:>10s}',end=' ')
+            print(f'{h:>10s}', end=' ')
         print()
-        print(('_'*10+' ')*len(headers))
+        print(('-'*10 + ' ')*len(headers))
 
     def row(self, rowdata):
         for d in rowdata:
@@ -29,41 +30,52 @@ class TextTableFormatter(TableFormatter):
 
 class CSVTableFormatter(TableFormatter):
     '''
-    Output portfolio data in CSV format.
+    Output data in CSV format.
     '''
     def headings(self, headers):
         print(','.join(headers))
 
-    def row(self,rowdata):
+    def row(self, rowdata):
         print(','.join(rowdata))
 
 class HTMLTableFormatter(TableFormatter):
+    '''
+    Output data in HTML format.
+    '''
     def headings(self, headers):
-        print('<tr>', end=' ')
+        print('<tr>', end='')
         for h in headers:
-            print(f'<th>{h}</th>',end=' ')
+            print(f'<th>{h}</th>', end='')
         print('</tr>')
 
-    def row(self,rowdata):
-        print('<tr>',end=' ')
+    def row(self, rowdata):
+        print('<tr>', end='')
         for d in rowdata:
-            print(f'<td>{d}</td>',end=' ')
+            print(f'<td>{d}</td>', end='')
         print('</tr>')
+
 class FormatError(Exception):
     pass
 
-def create_formatter(fmt):
-    if fmt == 'txt':
-        formatter = TextTableFormatter()
-    elif fmt == 'csv':
-        formatter = CSVTableFormatter()
-    elif fmt == 'hrml':
-        formatter = HTMLTableFormatter()
+def create_formatter(name):
+    '''
+    Create an appropriate formatter given an output format name
+    '''
+    if name == 'txt':
+        return TextTableFormatter()
+    elif name == 'csv':
+        return CSVTableFormatter()
+    elif name == 'html':
+        return HTMLTableFormatter()
     else:
-        raise RuntimeError(f'Unknown Format {fmt}')
+        raise FormatError(f'Unknown table format {name}')
 
-def print_table(obejcts,columns,formatter):
+def print_table(objects, columns, formatter):
+    '''
+    Make a nicely formatted table from a list of objects and attribute names.
+    '''
     formatter.headings(columns)
     for obj in objects:
-        rowdata = [str(getattr(obj,name)) for name in columns]
+        rowdata = [ str(getattr(obj, name)) for name in columns ]
         formatter.row(rowdata)
+
