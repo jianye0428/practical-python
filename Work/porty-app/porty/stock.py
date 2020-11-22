@@ -1,5 +1,5 @@
 # stock.py
-from typedproperty import String, Integer, Float
+from .typedproperty import String, Integer, Float
 class Stock:
     '''
     An instance of a stock holding consisting of name, shares, and price.

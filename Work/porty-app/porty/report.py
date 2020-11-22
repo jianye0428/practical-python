@@ -1,9 +1,8 @@
 # report.py
-
-import fileparse
-from stock import Stock
-import tableformat
-from portfolio import Portfolio
+from . import fileparse
+from .stock import Stock
+from . import tableformat
+from .portfolio import Portfolio
 
 def read_portfolio(filename,**opts):
     '''
@@ -27,7 +26,7 @@ def read_prices(filename):
     with open(filename) as lines:
         return dict(fileparse.parse_csv(lines, types=[str,float], has_headers=False))
 
-def make_report_data(portfolio, prices):
+def make_report(portfolio, prices):
     '''
     Make a list of (name, shares, price, change) tuples given a portfolio list
     and prices dictionary.
@@ -58,7 +57,7 @@ def portfolio_report(portfoliofile, pricefile, fmt='txt'):
     prices = read_prices(pricefile)
 
     # Create the report data
-    report = make_report_data(portfolio, prices)
+    report = make_report(portfolio, prices)
 
     # Print it out
     formatter = tableformat.create_formatter(fmt)
