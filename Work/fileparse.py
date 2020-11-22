@@ -1,6 +1,9 @@
 # fileparse.py
 import csv
-
+import logging
+logging.basicConfig()
+log = logging.getLogger(__name__)
+logging.getLogger('fileparse').level = logging.DEBUG
 def parse_csv(lines, select=None, types=None, has_headers=True, delimiter=',', silence_errors=False):
     '''
     Parse a CSV file into a list of records with type conversion.
@@ -33,8 +36,10 @@ def parse_csv(lines, select=None, types=None, has_headers=True, delimiter=',', s
                 row = [func(val) for func, val in zip(types, row)]
             except ValueError as e:
                 if not silence_errors:
-                    print(f"Row {rowno}: Couldn't convert {row}")
-                    print(f"Row {rowno}: Reason {e}")
+                    # print(f"Row {rowno}: Couldn't convert {row}")
+                    # print(f"Row {rowno}: Reason {e}")
+                    log.warning("Row %d: Couldn't convert %s", rowno, row)
+                    log.debug("Row %d: Reason %s", rowno, e)
                 continue
 
         # Make a dictionary or a tuple
